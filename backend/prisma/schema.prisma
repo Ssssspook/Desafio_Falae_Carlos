@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum FeedbackChannel {
+  GOOGLE
+  IFOOD
+  PESQUISA
+}
+
+enum FeedbackStatus {
+  NOVO
+  EM_ANALISE
+  CONCLUIDO
+}
+
+model Feedback {
+  id           Int             @id @default(autoincrement())
+  customerName String
+  rating       Int
+  comment      String?
+  channel      FeedbackChannel
+  status       FeedbackStatus  @default(NOVO)
+  createdAt    DateTime        @default(now())
+  notes        FeedbackNote[]
+}
+
+model FeedbackNote {
+  id          Int      @id @default(autoincrement())
+  feedbackId  Int
+  description String
+  createdAt   DateTime @default(now())
+  feedback    Feedback @relation(fields: [feedbackId], references: [id])
+}
