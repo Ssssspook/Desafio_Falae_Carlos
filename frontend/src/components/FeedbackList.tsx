@@ -13,6 +13,12 @@ const STATUS_LABELS: Record<string, string> = {
   CONCLUIDO: "Concluído",
 };
 
+const CHANNEL_LABELS: Record<string, string> = {
+  GOOGLE: "Google",
+  IFOOD: "iFood",
+  PESQUISA: "Pesquisa",
+};
+
 const STATUS_COLORS: Record<string, string> = {
   NOVO: "bg-blue-100 text-blue-700",
   EM_ANALISE: "bg-yellow-100 text-yellow-700",
@@ -59,6 +65,8 @@ export function FeedbackList({ feedbacks, isLoading, error, onSelect }: Props) {
               <div className="flex items-center gap-2">
                 <span className="font-medium text-gray-900">{feedback.customerName}</span>
                 <span className="text-yellow-500 text-sm">{"★".repeat(feedback.rating)}</span>
+                <span className="text-xs text-gray-400 border border-gray-200 rounded px-1.5 py-0.5">
+                  {CHANNEL_LABELS[feedback.channel]}</span>
               </div>
               {feedback.comment && (
                 <p className="text-sm text-gray-500 truncate">{feedback.comment}</p>
