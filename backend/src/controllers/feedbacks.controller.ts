@@ -4,6 +4,12 @@ import {
   getFeedbackIndicators,
   getFeedbackById,
   listFeedbackNotes,
+  createFeedbackNote,
+  updateFeedbackStatus,
+  FeedbackNotFoundError,
+  InvalidStatusError,
+  CriticalFeedbackWithoutNoteError,
+  EmptyNoteError,
 } from "../services/feedbacks.service.js";
 
 const VALID_CHANNELS = ["GOOGLE", "IFOOD", "PESQUISA"];
@@ -58,4 +64,61 @@ export async function getNotes(req: Request, res: Response) {
 
   const notes = await listFeedbackNotes(id);
   res.json(notes);
+}
+
+export async function postNote(req: Request, res: Response) {
+  const id = Number(req.params.id);
+
+  if (Number.isNaN(id)) {
+    return res.status(400).json({ error: "ID inválido." });
+  }
+
+  const description = req.body?.description;
+
+  if (typeof description !== "string") {
+    return res.status(400).json({ error: "Campo 'description' é obrigatório." });
+  }
+
+  try {
+    const note = await createFeedbackNote(id, description);
+    res.status(201).json(note);
+  } catch (err) {
+    if (err instanceof EmptyNoteError) {
+      return res.status(400).json({ error: err.message });
+    }
+    if (err instanceof FeedbackNotFoundError) {
+      return res.status(404).json({ error: err.message });
+    }
+    throw err;
+  }
+}
+
+export async function patchStatus(req: Request, res: Response) {
+  const id = Number(req.params.id);
+
+  if (Number.isNaN(id)) {
+    return res.status(400).json({ error: "ID inválido." });
+  }
+
+  const status = req.body?.status;
+
+  if (typeof status !== "string") {
+    return res.status(400).json({ error: "Campo 'status' é obrigatório." });
+  }
+
+  try {
+    const updated = await updateFeedbackStatus(id, status);
+    res.json(updated);
+  } catch (err) {
+    if (err instanceof InvalidStatusError) {
+      return res.status(400).json({ error: err.message });
+    }
+    if (err instanceof CriticalFeedbackWithoutNoteError) {
+      return res.status(422).json({ error: err.message });
+    }
+    if (err instanceof FeedbackNotFoundError) {
+      return res.status(404).json({ error: err.message });
+    }
+    throw err;
+  }
 }

@@ -19,7 +19,9 @@ app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
 
-app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error(err);
-  res.status(500).json({ error: "Erro interno do servidor." });
+  const statusCode = err.statusCode || 500;
+  const message = statusCode < 500 ? err.message : "Erro interno do servidor.";
+  res.status(statusCode).json({ error: message });
 });
