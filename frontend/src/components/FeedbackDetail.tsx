@@ -71,7 +71,7 @@ export function FeedbackDetail({ feedback, onClose, onUpdated }: Props) {
           <div className="flex items-baseline gap-2">
             <h2 className="text-lg font-bold text-gray-800">{feedback.customerName}</h2>
             <p className="text-yellow-500">{"★".repeat(feedback.rating)}</p>
-</div>
+          </div>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">
             ×
           </button>
