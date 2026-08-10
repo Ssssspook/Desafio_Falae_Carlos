@@ -68,10 +68,10 @@ export function FeedbackDetail({ feedback, onClose, onUpdated }: Props) {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto p-6">
         <div className="flex items-start justify-between mb-4">
-          <div>
-            <h2 className="text-lg font-bold text-gray-900">{feedback.customerName}</h2>
+          <div className="flex items-baseline gap-2">
+            <h2 className="text-lg font-bold text-gray-800">{feedback.customerName}</h2>
             <p className="text-yellow-500">{"★".repeat(feedback.rating)}</p>
-          </div>
+</div>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">
             ×
           </button>
