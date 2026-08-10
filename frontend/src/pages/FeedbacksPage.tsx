@@ -4,15 +4,12 @@ import { useFeedbacks } from "../hooks/useFeedbacks";
 import { FeedbackIndicators } from "../components/FeedbackIndicators";
 import { FeedbackFilters } from "../components/FeedbackFilters";
 import { FeedbackList } from "../components/FeedbackList";
+import { FeedbackDetail } from "../components/FeedbackDetail";
 
 export function FeedbacksPage() {
   const [filters, setFilters] = useState<FeedbackFiltersType>({});
-  const { feedbacks, indicators, isLoading, error } = useFeedbacks(filters);
-
-  function handleSelect(feedback: Feedback) {
-    console.log("Selecionado:", feedback);
-    // TO DO: abrir detalhe
-  }
+  const [selectedFeedback, setSelectedFeedback] = useState<Feedback | null>(null);
+  const { feedbacks, indicators, isLoading, error, refetch } = useFeedbacks(filters);
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -20,7 +17,20 @@ export function FeedbacksPage() {
 
       <FeedbackIndicators indicators={indicators} isLoading={isLoading} />
       <FeedbackFilters filters={filters} onChange={setFilters} />
-      <FeedbackList feedbacks={feedbacks} isLoading={isLoading} error={error} onSelect={handleSelect} />
+      <FeedbackList
+        feedbacks={feedbacks}
+        isLoading={isLoading}
+        error={error}
+        onSelect={setSelectedFeedback}
+      />
+
+      {selectedFeedback && (
+        <FeedbackDetail
+          feedback={selectedFeedback}
+          onClose={() => setSelectedFeedback(null)}
+          onUpdated={refetch}
+        />
+      )}
     </div>
   );
 }
