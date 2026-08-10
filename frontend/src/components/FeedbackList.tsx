@@ -26,7 +26,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export function FeedbackList({ feedbacks, isLoading, error, onSelect }: Props) {
-  if (isLoading) {
+  if (isLoading && feedbacks.length === 0) {
     return (
       <div className="space-y-2">
         {[1, 2, 3].map((i) => (
