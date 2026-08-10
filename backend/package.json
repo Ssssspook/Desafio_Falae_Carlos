@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest run",
     "dev": "tsx watch src/server.ts",
     "seed": "tsx prisma/seed.ts"
   },
@@ -28,4 +28,5 @@
     "tsx": "^4.23.11",
     "typescript": "^5.9.3"
   }
+  
 }
