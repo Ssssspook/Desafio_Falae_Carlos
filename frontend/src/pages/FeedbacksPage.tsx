@@ -13,7 +13,7 @@ export function FeedbacksPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Feedbacks</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">Sistema Feedbacks</h1>
 
       <FeedbackIndicators indicators={indicators} isLoading={isLoading} />
       <FeedbackFilters filters={filters} onChange={setFilters} />
