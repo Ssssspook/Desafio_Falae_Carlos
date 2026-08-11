@@ -117,8 +117,33 @@ O frontend sobe em `http://localhost:5173` (ou a porta indicada no terminal).
 
 O uso de ferramentas de IA durante o desenvolvimento está documentado em [`AI_USAGE.md`](./AI_USAGE.md), incluindo exemplos de sugestões incorretas ou desatualizadas e como foram identificadas e corrigidas.
 
+## Testes automatizados
+
+Ao fim do projeto, com o auxílio de inteligência artificial foram implementados testes de integração (Vitest + Supertest) cobrindo a regra de negócio mais crítica do desafio — o feedback crítico — e alguns casos de borda relacionados:
+
+- Bloqueia a conclusão de um feedback crítico (nota 1 ou 2) sem anotação registrada
+- Permite a conclusão após uma anotação ser adicionada
+- Permite a conclusão de um feedback não crítico sem exigir anotação
+- Bloqueia a criação de anotação vazia ou apenas com espaços
+- Retorna 404 para operações em um feedback inexistente
+
+Para rodar, primeiro entre na branch que contém os testes:
+
+```bash
+git checkout testes_automatizados
+```
+
+Depois:
+
+```bash
+cd backend
+npm test
+```
+
+> **Nota:** os testes rodam contra o mesmo banco de desenvolvimento (`dev.db`), criando e removendo seus próprios registros isolados (identificados por nome) em `beforeAll`/`afterAll`, sem tocar nos dados do seed. Evite rodá-los enquanto o backend estiver sendo usado por outra pessoa ao mesmo tempo.
+
 ## Pendências / possíveis melhorias futuras
 
 - Paginação na listagem de feedbacks
 - Edição/remoção de anotações já criadas
-- Testes automatizados (unitários e de integração)
+- Testes unitários isolados (sem banco) e testes end-to-end de interface — hoje a cobertura é apenas de integração, via API
